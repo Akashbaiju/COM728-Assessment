@@ -7,17 +7,22 @@
 
 
 
-# In[27]:
+# In[1]:
 
 
-import pandas as pd   
+import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load the CSV file
-file_path = 'students_data.csv'
-students_data = pd.read_csv(file_path)
+def load_data(file_path):
+    try:
+        df = pd.read_csv(file_path)
+        print("Data loaded successfully.")
+        return df
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found. Please check the file path and try again.")
+        return None
 
-def option_1():
+def option_1(students_data):
     # Ask user to input a race
     input_race = input("Enter the race you want to visualize: ").strip()
 
@@ -41,7 +46,7 @@ def option_1():
     else:
         print("The race you entered is not found in the dataset. Please try again.")
 
-def option_2():
+def option_2(students_data):
     # Ask the user to input a minimum writing score
     min_writing_score = float(input("Enter the minimum average writing score you want to input: "))
 
@@ -71,7 +76,7 @@ def option_2():
     plt.tight_layout()
     plt.show()
 
-def option_3():
+def option_3(students_data):
     # Prompt the user to input a student ID
     input_id = input("Enter the student ID to visualize their scores: ").strip()
 
@@ -104,7 +109,7 @@ def option_3():
     else:
         print("The student ID you entered is not found in the dataset. Please try again.")
 
-def option_4():
+def option_4(students_data):
     # Prompt the user to input a student ID
     input_id = input("Enter the student ID to visualize their scores: ").strip()
 
@@ -143,7 +148,7 @@ def option_4():
     else:
         print("The student ID you entered is not found in the dataset. Please try again.")
 
-def main():
+def main(students_data):
     while True:
         print("\nSelect an option to visualize student data:")
         print("1. Visualize proportion of students based on race")
@@ -155,21 +160,25 @@ def main():
         choice = input("Enter your choice (1-5): ").strip()
 
         if choice == '1':
-            option_1()
+            option_1(students_data)
         elif choice == '2':
-            option_2()
+            option_2(students_data)
         elif choice == '3':
-            option_3()
+            option_3(students_data)
         elif choice == '4':
-            option_4()
+            option_4(students_data)
         elif choice == '5':
             print("Exiting the program.")
             break
         else:
             print("Invalid choice. Please select a valid option.")
 
-# Run the main function
-main()
+# This part will not run when imported as a module but will run if executed directly
+if __name__ == "__main__":
+    file_path = 'students_data.csv'
+    df = load_data(file_path)
+    if df is not None:
+        main(df)
 
 
 # In[ ]:
